@@ -1,24 +1,56 @@
+body {
+    background-color: #333333;
+    font-family: 'Roboto', sans-serif;
+}
+
 .App {
-  text-align: center;
+    color: #F2F2F2;
+    display: table;
+    margin: 100px auto;
+    text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+h1 {
+    font-size: 64px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+h2 {
+    color: #BDBDBD;
+    font-size: 36px;
+    font-weight: 300;
 }
 
-.App-intro {
-  font-size: large;
+input[type=text]{
+    border-radius:10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    font-size: 36px;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 100px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 12px;
+    width: 30%;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+img {
+    width: 32px;
+    height: 32px;
 }
+
+.submitButton {
+    background-color: #27AE60;
+    border: none;
+    color: #F2F2F2;
+    text-decoration: none;
+    margin: 100px auto;
+    display: block;
+    font-size: 24px;
+    padding: 15px 15px;
+    border-radius: 10px;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    cursor: pointer;
+}
+
