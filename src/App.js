@@ -1,66 +1,129 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Autosuggest from 'react-autosuggest';
+import plus from './plus.svg';
 import './App.css';
+
+
+const languages = [
+    {
+        name: 'C',
+        year: 1972
+    },
+    {
+        name: 'C#',
+        year: 2000
+    }
+]
+
+// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
+const escapeRegexCharacters = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const getSuggestions = value => {
+  const escapedValue = escapeRegexCharacters(value.trim());
+
+  if (escapedValue === '') {
+    return [];
+  }
+
+  const regex = new RegExp('^' + escapedValue, 'i');
+
+  return languages.filter(language => regex.test(language.name));
+}
+
+const getSuggestionValue = suggestion => suggestion.name;
+
+const renderSuggestion = suggestion => suggestion.name;
+
+const renderSuggestionsContainer = ({ containerProps, children, query }) => (
+  <div {...containerProps}>
+    {children}
+    {
+      <div className="footer">
+        Press Enter to search <strong>{query}</strong>
+      </div>
+    }
+  </div>
+);
+
 
 class SongInput extends React.Component {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            value: '',
+            suggestions: []
+        };
     }
-    handleChange(e) {
-        this.props.onChange(e);
-    }
+
+    onChange = (event, { newValue, method }) => {
+      this.setState({
+        value: newValue
+      });
+    };
+
+    onSuggestionsFetchRequested = ({ value }) => {
+      this.setState({
+        suggestions: getSuggestions(value)
+      });
+    };
+
+    /*
+    onSuggestionsClearRequested = () => {
+      this.setState({
+        suggestions: []
+      });
+    };
+    */
 
     render() {
-        return <input type="text" name={this.props.name} onChange={this.handleChange}/>
+        const { value, suggestions } = this.state;
+        const inputProps = {
+          placeholder: "Type 'c'",
+          value,
+          onChange: this.onChange
+        };
+        const someval = true;
+
+        return (
+            <input type="text"/>
+        );
     }
 }
-
-class DynamicInputList extends React.Component {
+    
+class MathematicalForm extends React.Component {
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.state = { inputs: [''] };
+        this.state = {
+            value: '',
+            suggestions: []
+        };
     }
 
-    handleInputChange(e) {
-        var indexOfInput = parseInt(e.target.name);
-        this.setState({ "inputs" : this.state.inputs.map((item, index) => 
-            {
-            if(index === indexOfInput) {
-                console.log(e.target.value);
-                return e.target.value;
-            } else {
-                return item;
-            };
-            })});
+
+    handleSubmit(event) {
+        event.preventDefault();
     }
 
     render() {
         return (
-            <div>
-                <form>
-                    <div id="dynamicInput">
-                        {this.state.inputs.map((input, index) => <SongInput name={index} key={index} onChange={this.handleInputChange}/>)}
-                    </div>
-                </form>
-            <button onClick= { () => this.appendInput() }>
-                +
-            </button>
-            </div>
+            <form onSubmit={this.handleSubmit}>
+                <SongInput/>
+                <img src={plus} alt="+"/>
+                <SongInput/>
+                <input className="submitButton" type="submit" value="Combine" />
+            </form>
         );
     }
-    appendInput() {
-        var newInput = ``;
-        this.setState({ inputs: this.state.inputs.concat([newInput]) });
-    }
 }
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <DynamicInputList/>
+          <h1> Algebrissimo </h1>
+          <h2> Add two songs together to get a song that sounds like both of them combined! </h2>
+          <MathematicalForm/>
       </div>
     );
   }
